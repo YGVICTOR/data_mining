@@ -1,0 +1,27 @@
+import adult
+adult_csv = adult.read_csv_1("../data/adult.csv")
+import time
+
+print(adult.num_rows(adult_csv), adult.column_names(adult_csv), len(adult.column_names(adult_csv)), adult.missing_values(adult_csv),
+      adult.columns_with_missing_values(adult_csv), adult.bachelors_masters_percentage(adult_csv))
+start = time.time()
+print(adult.data_frame_without_missing_values(adult_csv).shape)
+print(adult_csv.shape)
+df_without_missing = adult.data_frame_without_missing_values(adult_csv)
+adult_one_hot = adult.one_hot_encoding(df_without_missing)
+print(adult_one_hot)
+label = adult.label_encoding(df_without_missing)
+print(label)
+label_hat = adult.dt_predict(adult_one_hot, label)
+print(label_hat)
+error_rate = adult.dt_error_rate(label_hat, label)
+print(error_rate)
+adult_one_hot = adult.one_hot_encoding(adult_csv)
+print(adult_one_hot)
+adult_csv = adult_csv.dropna()
+y_true = adult.label_encoding(adult_csv[["class"]])
+y_predict = adult.dt_predict(adult_one_hot, y_true)
+error_rate = adult.dt_error_rate(y_predict, y_true)
+print(error_rate)
+print(time.time()-start)
+print('end')
